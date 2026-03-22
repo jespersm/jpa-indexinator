@@ -15,7 +15,9 @@
     <modules>
         <module>indexinator-core</module>
         <module>indexinator-hibernate</module>
-        <module>indexinator-demo</module>
+        <module>indexinator-test-parent</module>
+        <module>indexinator-test-sb35</module>
+        <module>indexinator-test-sb4</module>
     </modules>
 
     <properties>
@@ -23,7 +25,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring.boot.version>3.5.11</spring.boot.version>
+        <spring.boot.version>4.0.4</spring.boot.version>
+<!--        <spring.boot.version>3.5.11</spring.boot.version>-->
         <!-- <hibernate.version>6.5.1.Final</hibernate.version> -->
         <junit.version>5.12.0</junit.version>
     </properties>

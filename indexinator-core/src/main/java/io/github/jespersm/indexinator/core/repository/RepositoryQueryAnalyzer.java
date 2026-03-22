@@ -14,11 +14,44 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+// Reflective workaround: Part.getProperty() return type changed between Spring Data 3.x and 4.x;
+// we resolve the methods once at class-load time and call them reflectively.
+
 /**
  * Analyzes Spring Data JPA repositories to extract query method information
  * using Spring's PartTree parser
  */
 public class RepositoryQueryAnalyzer {
+
+    // Reflective handle for Part.getProperty() – return type changed between SD 3.x and 4.x
+    private static final java.lang.reflect.Method GET_PROPERTY_METHOD;
+    // Reflective handle for the toDotPath() method on whatever getProperty() returns
+    private static final java.lang.reflect.Method TO_DOT_PATH_METHOD;
+
+    static {
+        java.lang.reflect.Method getProperty = null;
+        java.lang.reflect.Method toDotPath = null;
+        try {
+            getProperty = Part.class.getMethod("getProperty");
+            toDotPath = getProperty.getReturnType().getMethod("toDotPath");
+        } catch (Exception e) {
+            // Will surface at call time
+        }
+        GET_PROPERTY_METHOD = getProperty;
+        TO_DOT_PATH_METHOD = toDotPath;
+    }
+
+    /**
+     * Version-safe equivalent of {@code part.getProperty().toDotPath()}.
+     */
+    private static String toDotPath(Part part) {
+        try {
+            Object property = GET_PROPERTY_METHOD.invoke(part);
+            return (String) TO_DOT_PATH_METHOD.invoke(property);
+        } catch (Exception e) {
+            throw new IllegalStateException("Cannot call Part.getProperty().toDotPath() – Spring Data API mismatch?", e);
+        }
+    }
 
     /**
      * Analyze a repository interface to extract all query methods
@@ -73,8 +106,8 @@ public class RepositoryQueryAnalyzer {
             // Extract all properties from the PartTree
             for (PartTree.OrPart orPart : partTree) {
                 for (Part part : orPart) {
-                    // part.getProperty() gives us the property path
-                    String propertyPath = part.getProperty().toDotPath();
+                    // part.getProperty() gives us the property path (reflective – return type changed in SD 4)
+                    String propertyPath = toDotPath(part);
                     queriedFields.add(propertyPath);
                 }
             }
@@ -152,12 +185,10 @@ public class RepositoryQueryAnalyzer {
     private Class<?> getEntityClass(Class<?> repositoryInterface) {
         // Look through all generic interfaces to find Repository<Entity, ID>
         for (Type genericInterface : repositoryInterface.getGenericInterfaces()) {
-            if (genericInterface instanceof ParameterizedType) {
-                ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
+            if (genericInterface instanceof ParameterizedType parameterizedType) {
                 Type rawType = parameterizedType.getRawType();
 
-                if (rawType instanceof Class) {
-                    Class<?> rawClass = (Class<?>) rawType;
+                if (rawType instanceof Class<?> rawClass) {
                     String name = rawClass.getName();
 
                     // Check if this is a repository interface

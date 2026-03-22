@@ -25,8 +25,14 @@ jpa_helper/
 ├── indexinator-hibernate/     # Hibernate provider extension
 │   └── ServiceLoader-based mapping resolver for requirement-to-schema mapping
 │
-└── indexinator-demo/          # Demo application
-    └── Spring Boot demo with Teachers/Students/Classes model
+├── indexinator-test-parent/   # Shared Spring Boot test fixture sources
+│   └── Main/test sources reused by versioned test runners
+│
+├── indexinator-test-sb35/     # Source-less Spring Boot 3.5 runner
+│   └── Java 17 runner compiling shared test-parent sources
+│
+└── indexinator-test-sb4/      # Source-less Spring Boot 4 runner
+    └── Java 21 runner compiling shared test-parent sources
 ```
 
 ## Features
@@ -61,6 +67,5 @@ A ServiceLoader-based provider (`RequirementMappingResolverProvider`) that maps 
 - Java 17 or higher
 - Maven 3.6+
 - Docker (required for Testcontainers in integration tests)
-- PostgreSQL (for running the demo application, or use Docker)
 
 Building and running the tests is just plain Maven.
