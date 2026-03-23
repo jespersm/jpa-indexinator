@@ -37,7 +37,7 @@ public class Student {
 
     // Many students can have one advisor (teacher)
     // INTENTIONAL ISSUE: No @Index on advisor_id column!
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "advisor_id")
     private Teacher advisor;
 

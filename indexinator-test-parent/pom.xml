@@ -35,6 +35,16 @@
                 <artifactId>indexinator-hibernate</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.jespersm.indexinator</groupId>
+                <artifactId>unselectinator-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jespersm.indexinator</groupId>
+                <artifactId>unselectinator-hibernate</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Spring Boot BOM (child modules override spring.boot.test.version) -->
             <dependency>
@@ -75,6 +85,29 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.jespersm.indexinator</groupId>
+            <artifactId>unselectinator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.jespersm.indexinator</groupId>
+            <artifactId>unselectinator-hibernate</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement>

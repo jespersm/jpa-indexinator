@@ -15,6 +15,8 @@
     <modules>
         <module>indexinator-core</module>
         <module>indexinator-hibernate</module>
+        <module>unselectinator-core</module>
+        <module>unselectinator-hibernate</module>
         <module>indexinator-test-parent</module>
         <module>indexinator-test-sb35</module>
         <module>indexinator-test-sb4</module>
