@@ -11,12 +11,12 @@
 
 ## Spring Integration in This Repository
 
-The shared test fixture (`jpa-twca-test-parent`) demonstrates one-stop setup in:
+The shared test fixture (`jpa-tripwire-test-parent`) demonstrates one-stop setup in:
 
-- `jpa-twca-test-parent/src/main/java/io/github/jespersm/jpa-twca/testunselectinator/UnselectinatorDemoConfiguration.java`
-- `jpa-twca-test-parent/src/main/java/io/github/jespersm/jpa-twca/testunselectinator/RepositoryFetchObservationAspect.java`
+- `jpa-tripwire-test-parent/src/main/java/io/github/jespersm/jpa/tripwire/testunselectinator/UnselectinatorDemoConfiguration.java`
+- `jpa-tripwire-test-parent/src/main/java/io/github/jespersm/jpa/tripwire/testunselectinator/RepositoryFetchObservationAspect.java`
 
 See integration tests in:
 
-- `jpa-twca-test-parent/src/test/java/io/github/jespersm/jpa-twca/testIndexinatorIntegrationTest.java`
+- `jpa-tripwire-test-parent/src/test/java/io/github/jespersm/jpa/tripwire/`
 

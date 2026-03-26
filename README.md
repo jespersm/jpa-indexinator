@@ -1,10 +1,10 @@
-# JPA Tool Without a Cool Acronym (JPA T.W.C.A.)
+# JPA Tripwire
 
-A Java tool for inspecting JPA/Hibernate models and databases to detect potential performance issues. Once burned twice shy.
+Tools for inspecting JPA/Hibernate models and databases to detect potential performance issues. Once burned twice shy.
 
 ## Overview
 
-I built the JPA TWCA to help developers identify common database performance issues rooted in the leaking abstraction that is an O/R Mapper.
+I built the JPA Tripwire to help developers identify common database performance issues rooted in the leaking abstraction that is an O/R Mapper.
  The tool analyzes your entity classes and the actual database schema to find discrepancies that can lead to slow queries and performance degradation:
 
 - N+1 selects due to missing fetch graphs or general belief in magic
@@ -19,7 +19,7 @@ I built the JPA TWCA to help developers identify common database performance iss
 This is a multi-module Maven project:
 
 ```
-jpa-twca/
+jpa-tripwire/
 ├── indexinator-core/          # Core inspection library
 │   └── Reusable library for JPA/database inspection
 │
@@ -32,13 +32,13 @@ jpa-twca/
 ├── unselectinator-hibernate/     # Hibernate event provider extension
 │   └── ServiceLoader-based interceptor provider for detecting N+1 selects at runtime
 │
-├── jpa-twca-test-parent/   # Shared Spring Boot test fixture sources
+├── jpa-tripwire-test-parent/   # Shared Spring Boot test fixture sources
 │   └── Main/test sources reused by versioned test runners
 │
-├── jpa-twca-test-sb35/     # Source-less Spring Boot 3.5 runner
+├── jpa-tripwire-test-sb35/     # Source-less Spring Boot 3.5 runner
 │   └── Java 17 runner compiling shared test-parent sources
 │
-└── jpa-twca-test-sb4/      # Source-less Spring Boot 4 runner
+└── jpa-tripwire-test-sb4/      # Source-less Spring Boot 4 runner
     └── Java 21 runner compiling shared test-parent sources
 ```
 
