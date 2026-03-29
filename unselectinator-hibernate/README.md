@@ -9,14 +9,12 @@
 - `HibernateUnselectinatorEventListener`: forwards `POST_LOAD` and `INIT_COLLECTION` events to `EntityLoadTracker`.
 - `HibernateUnselectinator`: helper factory for statement inspector and integrator provider.
 
-## Spring Integration in This Repository
+## Spring / Spring Boot Integration
 
-The shared test fixture (`jpa-tripwire-test-parent`) demonstrates one-stop setup in:
+`unselectinator-hibernate` also ships Spring wiring support in the `...hibernate.spring` package:
 
-- `jpa-tripwire-test-parent/src/main/java/io/github/jespersm/jpa/tripwire/testunselectinator/UnselectinatorDemoConfiguration.java`
-- `jpa-tripwire-test-parent/src/main/java/io/github/jespersm/jpa/tripwire/testunselectinator/RepositoryFetchObservationAspect.java`
+- `UnselectinatorSpringConfiguration`
+- `RepositoryFetchObservationAspect`
 
-See integration tests in:
-
-- `jpa-tripwire-test-parent/src/test/java/io/github/jespersm/jpa/tripwire/`
+For usage and explicit per-test opt-in examples, see the top-level `README.md`.
 

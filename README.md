@@ -14,6 +14,47 @@ I built the JPA Tripwire to help developers identify common database performance
 - Missing indexes on frequently queried columns
 - Suboptimal composite indexes
 
+## How to
+
+### Use Unselectinator in a Spring Boot integration test
+
+`unselectinator-hibernate` ships ready-to-use Spring wiring support via optional dependencies.
+
+The main entry point is [`UnselectinatorSpringConfiguration`](unselectinator-hibernate/src/main/java/io/github/jespersm/jpa/tripwire/unselectinator/hibernate/spring/UnselectinatorSpringConfiguration.java), which registers:
+
+- [`EntityLoadTracker`](unselectinator-core/src/main/java/io/github/jespersm/jpa/tripwire/unselectinator/core/EntityLoadTracker.java)
+- [`Unselectinator`](unselectinator-core/src/main/java/io/github/jespersm/jpa/tripwire/unselectinator/core/Unselectinator.java)
+- an observed `EntityManager` via [`ObservedEntityManagerFactory`](unselectinator-core/src/main/java/io/github/jespersm/jpa/tripwire/unselectinator/core/ObservedEntityManagerFactory.java)
+- the Hibernate `BeanPostProcessor`
+- [`RepositoryFetchObservationAspect`](unselectinator-hibernate/src/main/java/io/github/jespersm/jpa/tripwire/unselectinator/hibernate/spring/RepositoryFetchObservationAspect.java)
+
+Nothing activates automatically, so each test class opts in explicitly.
+
+For a single test class:
+
+```java
+@SpringBootTest(classes = MyApp.class)
+@Import(UnselectinatorSpringConfiguration.class)
+class MyIntegrationTest { }
+```
+
+Or on a shared abstract base class:
+
+```java
+@SpringBootTest(classes = { MyApp.class, UnselectinatorSpringConfiguration.class })
+abstract class AbstractMyTest { }
+```
+
+See [`AbstractTripwireTest`](jpa-tripwire-test-parent/src/test/java/io/github/jespersm/jpa/tripwire/test/AbstractTripwireTest.java) for a working example.
+
+### Use Indexinator to assert your database structure matches expected query behavior
+
+After running [`Indexinator`](indexinator-core/src/main/java/io/github/jespersm/jpa/tripwire/indexinator/core/Indexinator.java) and getting an [`InspectionReport`](indexinator-core/src/main/java/io/github/jespersm/jpa/tripwire/indexinator/core/model/InspectionReport.java), assert that there are no findings:
+
+```java
+assertFalse(report.hasIssues(), "Expected no index findings");
+```
+
 ## Project Structure
 
 This is a multi-module Maven project:

@@ -1,4 +1,4 @@
-package io.github.jespersm.jpa.tripwire.test.unselectinator;
+package io.github.jespersm.jpa.tripwire.unselectinator.hibernate.spring;
 
 import io.github.jespersm.jpa.tripwire.unselectinator.core.EntityLoadTracker;
 import io.github.jespersm.jpa.tripwire.unselectinator.core.FetchEndpoint;
@@ -6,20 +6,26 @@ import io.github.jespersm.jpa.tripwire.unselectinator.core.FetchEndpoints;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
+import org.aspectj.lang.reflect.MethodSignature;
+
 /**
- * Treat repository method invocations as the user-visible explicit fetch boundary.
+ * Treats Spring Data repository method invocations as the user-visible explicit fetch
+ * boundary for Unselectinator observation.
+ *
+ * <p>This aspect carries no {@code @Component} stereotype and is therefore never
+ * picked up by component scanning. It is registered exclusively as a Spring bean by
+ * {@link UnselectinatorSpringConfiguration#repositoryFetchObservationAspect}, ensuring
+ * that activation is fully explicit and per-test-class.
  */
 @Aspect
-@Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RepositoryFetchObservationAspect {
+
     private final EntityLoadTracker tracker;
 
     public RepositoryFetchObservationAspect(EntityLoadTracker tracker) {

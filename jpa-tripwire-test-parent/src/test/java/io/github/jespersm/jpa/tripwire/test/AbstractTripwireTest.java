@@ -2,10 +2,12 @@ package io.github.jespersm.jpa.tripwire.test;
 
 import io.github.jespersm.jpa.tripwire.test.repository.SchoolClassRepository;
 import io.github.jespersm.jpa.tripwire.unselectinator.core.Unselectinator;
+import io.github.jespersm.jpa.tripwire.unselectinator.hibernate.spring.UnselectinatorSpringConfiguration;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -17,6 +19,7 @@ import javax.sql.DataSource;
  * Common parts for testing the JPA Tripwire tools.
  */
 @SpringBootTest(classes = TestApplication.class)
+@Import(UnselectinatorSpringConfiguration.class)
 @ActiveProfiles("test")
 abstract class AbstractTripwireTest {
 
